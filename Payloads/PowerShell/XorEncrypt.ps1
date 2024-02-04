@@ -5,3 +5,6 @@ $key = [System.Text.Encoding]::UTF8.GetBytes('a')[0]
 for ($i = 0; $i -lt $buf.Length; $i++) {
     $buf[$i] = $buf[$i] -bxor $key
 }
+
+$encryptedString = ($buf | ForEach-Object { '0x{0:X}' -f $_ }) -join ','
+Write-Output $encryptedString

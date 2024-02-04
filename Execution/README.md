@@ -1,0 +1,1 @@
+Bypass folder of web server will have AMSI bypass splitted and loaded in parts, then, run whatever payload chosen.

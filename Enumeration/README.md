@@ -15,3 +15,8 @@ Applocker:
 ```
 Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 ```
+
+NMAP with SOCKS5:
+```
+proxychains nmap -sT -PN -n -sV 172.16.176.180 -p 445
+```
